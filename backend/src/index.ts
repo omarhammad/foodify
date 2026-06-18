@@ -1,14 +1,14 @@
-import express, { Request, Response } from 'express';
+import express from "express";
+import {config} from "./config.js";
+import {AgentController} from "@agent/adapter/in/web/agent.controller.js";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-
 app.use(express.json());
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Foodify backend ');
-});
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+const agentController = new AgentController();
+app.use("/api/chat", agentController.router);   // AgentController => /api/chat
+
+app.listen(config.PORT, () => {
+    console.log(`Server running on http://localhost:${config.PORT}`);
 });
