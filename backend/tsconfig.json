@@ -5,6 +5,12 @@
     "moduleResolution": "NodeNext",
     "outDir": "./dist",
     "rootDir": "./src",
+    "baseUrl": "./src",
+    "paths": {
+      "@common/*": ["common/*"],
+      "@agent/*": ["agent/*"],
+      "@recipe/*": ["recipe/*"]
+    },
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,

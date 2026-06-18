@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "NODE_ENV=dev tsx watch src/index.ts",
     "test": "NODE_ENV=test tsx src/index.ts",
-    "build": "tsc",
+    "build": "tsc && tsc-alias",
     "start": "NODE_ENV=prod node dist/index.js"
   },
   "keywords": [],
@@ -28,6 +28,7 @@
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^25.9.3",
+    "tsc-alias": "^1.8.17",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3"
   }
