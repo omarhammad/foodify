@@ -33,8 +33,20 @@ export class AgentController {
         }
         const {prompt} = result.data;
 
-        const message = await this.handleMessageInputPort.handle({chatId: chatId, prompt: prompt});
+        res.setHeader("Content-Type", "text/event-stream");
+        res.setHeader("Cache-Control", "no-cache");
+        res.setHeader("Connection", "keep-alive");
+        res.flushHeaders();
 
-        res.status(200).json({chatId, message});
+        try {
+            for await (const chunk of this.handleMessageInputPort.handle({chatId: chatId, prompt: prompt})) {
+                res.write(`data: ${chunk} \n\n`);
+            }
+            res.end();
+        } catch (error) {
+            res.write(`data: ${JSON.stringify({message: "Streaming failed"})}\n\n`);
+            res.end();
+        }
+
     };
 }

@@ -11,7 +11,7 @@ export class HandleMessageUseCase implements HandleMessageInputPort {
         this.chatPort = chatPort;
     }
 
-    handle(cmd: HandleMessageCmd): Promise<string> {
+    handle(cmd: HandleMessageCmd): AsyncIterable<string> {
         const messages: ChatMessage[] = [{role: "user", content: cmd.prompt}];
         return this.chatPort.chat(messages);
 
