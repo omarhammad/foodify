@@ -1,16 +1,17 @@
 import {Router, Request, Response} from "express";
+import {z} from "zod";
 import {HandleMessageInputPort} from "@agent/port/in/handle-message.input-port.js";
-import {HandleMessageUseCase} from "@agent/core/handle-message.use-case.js";
-import {ChatRequestBody} from "@agent/adapter/in/web/request/chat-request-body.js";
+import {ChatRequestBody, chatRequestBodySchema} from "@agent/adapter/in/web/request/chat-request-body.js";
 
 export class AgentController {
     public readonly router: Router;
     private readonly handleMessageInputPort: HandleMessageInputPort
 
-    constructor() {
+    constructor(handleMessageInputPort: HandleMessageInputPort) {
         this.router = Router();
+        this.handleMessageInputPort = handleMessageInputPort;
         this.registerRoutes();
-        this.handleMessageInputPort = new HandleMessageUseCase()
+
     }
 
     private registerRoutes(): void {
@@ -23,7 +24,14 @@ export class AgentController {
     ): Promise<void> => {
 
         const chatId = req.params.chatId;
-        const {prompt} = req.body;
+
+
+        const result = chatRequestBodySchema.safeParse(req.body);
+        if (!result.success) {
+            res.status(400).json({error: z.flattenError(result.error)});
+            return;
+        }
+        const {prompt} = result.data;
 
         const message = await this.handleMessageInputPort.handle({chatId: chatId, prompt: prompt});
 
