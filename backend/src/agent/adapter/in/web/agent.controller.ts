@@ -40,7 +40,7 @@ export class AgentController {
 
         try {
             for await (const chunk of this.handleMessageInputPort.handle({chatId: chatId, prompt: prompt})) {
-                res.write(`data: ${chunk} \n\n`);
+                res.write(`data: ${chunk}\n\n`);
             }
             res.end();
         } catch (error) {
