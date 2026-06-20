@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  sqlserver-dev:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: foodify-sql-dev
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: Secret123!
+      MSSQL_DB: foodify_dev
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_dev_data:/var/opt/mssql
+    healthcheck:
+      test: [ "CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "Secret123!", "-Q", "SELECT 1", "-C" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+# docker exec foodify-ollama ollama pull qwen3 /  docker exec foodify-ollama ollama list
+  ollama:
+    image: ollama/ollama:latest
+    container_name: foodify-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    healthcheck:
+      test: [ "CMD", "ollama", "list" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  sqlserver_dev_data:
+  ollama_data:
