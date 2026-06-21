@@ -1,0 +1,28 @@
+// pnpm prisma migrate dev --name <migration name>
+generator client {
+  provider = "prisma-client-js"
+  output = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlserver"
+}
+
+model ChatEntity {
+  id       String              @id @default(uuid())
+  messages ChatMessageEntity[]
+
+  @@map("chats")
+}
+
+model ChatMessageEntity {
+  id        String     @id @default(uuid())
+  chatId    String
+  role      String
+  content   String
+  createdAt DateTime   @default(now())
+  chat      ChatEntity @relation(fields: [chatId], references: [id], onDelete: Cascade)
+
+  @@index([chatId, createdAt])
+  @@map("chat_messages")
+}

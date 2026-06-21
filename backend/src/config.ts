@@ -11,7 +11,7 @@ dotenv.config({ path: '.env.local', override: true });
 const schema = z.object({
     NODE_ENV: z.enum(['dev', 'prod', 'test']).default('dev'),
     PORT: z.coerce.number().default(3000),
-    DATABASE_URL: z.url(),
+    DATABASE_URL: z.string(),
     LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
 });
 

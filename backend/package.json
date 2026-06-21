@@ -9,7 +9,14 @@
     "build": "tsc && tsc-alias",
     "start": "NODE_ENV=prod node dist/index.js",
     "docker:up": "docker compose up -d",
-    "docker:down": "docker compose down"
+    "docker:down": "docker compose down",
+    "db:generate": "prisma generate",
+    "db:migrate": "NODE_ENV=dev prisma migrate dev",
+    "db:migrate:test": "NODE_ENV=test prisma migrate deploy",
+    "db:migrate:prod": "NODE_ENV=prod prisma migrate deploy",
+    "db:studio": "NODE_ENV=dev prisma studio",
+    "db:reset": "NODE_ENV=dev prisma migrate reset",
+    "db:push": "NODE_ENV=dev prisma db push"
   },
   "keywords": [],
   "author": "",
@@ -23,8 +30,10 @@
   },
   "type": "module",
   "dependencies": {
-    "dotenv": "^17.4.2",
+    "@prisma/adapter-mssql": "^7.8.0",
+    "@prisma/client": "^7.8.0",
     "express": "^5.2.1",
+    "mssql": "^12.5.5",
     "ollama": "^0.6.3",
     "openai": "^6.44.0",
     "zod": "^4.4.3"
@@ -33,6 +42,8 @@
     "@types/express": "^5.0.6",
     "@types/node": "^25.9.3",
     "concurrently": "^10.0.3",
+    "dotenv": "^17.4.2",
+    "prisma": "^7.8.0",
     "tsc-alias": "^1.8.17",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3"

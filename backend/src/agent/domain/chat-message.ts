@@ -1,4 +1,6 @@
+import {MessageRole} from "@agent/domain/message-role.js";
+
 export interface ChatMessage {
-    role: "system" | "user" | "assistant";
+    role: MessageRole;
     content: string;
 }
