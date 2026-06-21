@@ -131,7 +131,7 @@ data: there
 
 Test with curl:
 ```bash
-curl -N -X POST http://localhost:3000/api/chat/123 \
+curl -N -X POST http://localhost:3000/api/chat/49edab7b-4cc5-4a75-a417-66b61fa1569b \
   -H "Content-Type: application/json" \
   -H "Accept: text/event-stream" \
   -d '{"prompt":"Hi, how are you?"}'
